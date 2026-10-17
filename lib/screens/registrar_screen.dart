@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../data/productos.dart';
 import '../theme/app_theme.dart';
@@ -21,6 +22,10 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
   final _precioCtrl = TextEditingController();
   final _stockCtrl = TextEditingController();
 
+  // bytes de la foto elegida (null = todavia no eligio ninguna).
+  // Uso bytes y no File porque File no funciona en el navegador
+  Uint8List? _imagenBytes;
+
   @override
   void dispose() {
     _nombreCtrl.dispose();
@@ -33,6 +38,26 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
   // acepta 12.50 o 12,50
   double? _leerPrecio(String texto) {
     return double.tryParse(texto.trim().replaceAll(',', '.'));
+  }
+
+  // abre la galeria con image_picker
+  Future<void> _seleccionarImagen() async {
+    try {
+      final XFile? archivo = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 600, // la achico para que no pese tanto
+        imageQuality: 85,
+      );
+      if (archivo == null) return; // cerro la galeria sin elegir
+      final bytes = await archivo.readAsBytes();
+      if (!mounted) return;
+      setState(() => _imagenBytes = bytes);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo abrir la galería')),
+      );
+    }
   }
 
   void _guardar() {
@@ -52,13 +77,19 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
       'stock': int.parse(_stockCtrl.text),
       'icono': FontAwesomeIcons.box,
       'color': color,
+      // si no eligio foto queda null y en la lista sale el icono de caja
+      'imagen': _imagenBytes,
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            const FaIcon(FontAwesomeIcons.solidCircleCheck, size: 18, color: AppTheme.turquesa),
+            const FaIcon(
+              FontAwesomeIcons.solidCircleCheck,
+              size: 18,
+              color: AppTheme.turquesa,
+            ),
             const SizedBox(width: 12),
             Expanded(child: Text('"$nombre" se guardó correctamente')),
           ],
@@ -183,21 +214,19 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
     );
   }
 
-  // zona para "seleccionar imagen" (por ahora es solo decorativa)
+  // zona para "seleccionar imagen": si ya eligio una foto la muestra,
+  // si no, muestra la camarita
   Widget _zonaImagen(TextTheme textos) {
     final radio = BorderRadius.circular(AppTheme.radio);
+    final tieneFoto = _imagenBytes != null;
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: radio,
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('La galería estará disponible pronto')),
-          );
-        },
+        onTap: _seleccionarImagen,
         child: Ink(
-          height: 150,
+          height: 170,
           decoration: BoxDecoration(
             borderRadius: radio,
             gradient: LinearGradient(
@@ -211,25 +240,71 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
               width: 1.5,
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CirculoDegradado(
-                icono: FontAwesomeIcons.solidCamera,
-                colores: [AppTheme.naranja, AppTheme.rosa],
-                tamano: 60,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Seleccionar imagen',
-                style: textos.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              Text(
-                'Toca para elegir una foto',
-                style: textos.bodySmall?.copyWith(color: AppTheme.textoSuave),
-              ),
-            ],
-          ),
+          child: tieneFoto
+              ? Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppTheme.radio - 2),
+                      child: Image.memory(_imagenBytes!, fit: BoxFit.cover),
+                    ),
+                    // etiqueta para avisar que se puede cambiar
+                    Positioned(
+                      right: 10,
+                      bottom: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.textoOscuro.withValues(alpha: 0.75),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.solidImages,
+                              size: 13,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Cambiar',
+                              style: textos.labelMedium?.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CirculoDegradado(
+                      icono: FontAwesomeIcons.solidCamera,
+                      colores: [AppTheme.naranja, AppTheme.rosa],
+                      tamano: 60,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Seleccionar imagen',
+                      style: textos.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Toca para elegir una foto de tu galería',
+                      style: textos.bodySmall?.copyWith(
+                        color: AppTheme.textoSuave,
+                      ),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

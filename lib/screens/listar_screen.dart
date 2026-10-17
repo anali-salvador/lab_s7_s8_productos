@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../data/productos.dart';
 import '../theme/app_theme.dart';
 import '../widgets/animated_gradient_background.dart';
+import '../widgets/imagen_producto.dart';
 
 class ListarScreen extends StatefulWidget {
   const ListarScreen({super.key});
@@ -136,10 +137,8 @@ class _ListarScreenState extends State<ListarScreen> {
 
     return Card(
       child: ListTile(
-        leading: CirculoDegradado(
-          icono: producto['icono'],
-          colores: AppTheme.degradadoDe(color),
-        ),
+        // foto del producto (o una cajita si no tiene)
+        leading: ImagenProducto(producto: producto, tamano: 58),
         title: Text(
           producto['nombre'],
           maxLines: 1,

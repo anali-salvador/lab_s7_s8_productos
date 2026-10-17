@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme/app_theme.dart';
 import '../widgets/animated_gradient_background.dart';
@@ -54,10 +55,10 @@ class _PerfilScreenState extends State<PerfilScreen>
 
     // filas de la card de datos: icono, color, etiqueta y valor
     final datos = [
-      {'icono': Icons.person_rounded, 'color': AppTheme.violeta, 'label': 'Nombre', 'valor': _usuario['nombre']},
-      {'icono': Icons.email_rounded, 'color': AppTheme.rosa, 'label': 'Email', 'valor': _usuario['email']},
-      {'icono': Icons.phone_rounded, 'color': AppTheme.turquesa, 'label': 'Teléfono', 'valor': _usuario['telefono']},
-      {'icono': Icons.verified_user_rounded, 'color': AppTheme.naranja, 'label': 'Rol', 'valor': _usuario['rol']},
+      {'icono': FontAwesomeIcons.solidUser, 'color': AppTheme.violeta, 'label': 'Nombre', 'valor': _usuario['nombre']},
+      {'icono': FontAwesomeIcons.solidEnvelope, 'color': AppTheme.rosa, 'label': 'Email', 'valor': _usuario['email']},
+      {'icono': FontAwesomeIcons.phone, 'color': AppTheme.turquesa, 'label': 'Teléfono', 'valor': _usuario['telefono']},
+      {'icono': FontAwesomeIcons.shieldHalved, 'color': AppTheme.naranja, 'label': 'Rol', 'valor': _usuario['rol']},
     ];
 
     return AnimatedGradientBackground(
@@ -105,7 +106,7 @@ class _PerfilScreenState extends State<PerfilScreen>
                   const SizedBox(height: 24),
                   GradientButton(
                     texto: 'EDITAR PERFIL',
-                    icono: Icons.edit_rounded,
+                    icono: FontAwesomeIcons.solidPenToSquare,
                     onPressed: () => _mensaje('Pronto podrás editar tu perfil'),
                   ),
                   const SizedBox(height: 16),
@@ -128,7 +129,7 @@ class _PerfilScreenState extends State<PerfilScreen>
           color: color.withValues(alpha: 0.15),
           shape: BoxShape.circle,
         ),
-        child: Icon(dato['icono'] as IconData, color: color),
+        child: FaIcon(dato['icono'] as FaIconData, size: 18, color: color),
       ),
       title: Text(
         dato['label'] as String,
@@ -199,9 +200,9 @@ class _PerfilScreenState extends State<PerfilScreen>
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       color: AppTheme.violeta.withValues(alpha: 0.12),
-                      child: const Icon(
-                        Icons.person_rounded,
-                        size: 70,
+                      child: const FaIcon(
+                        FontAwesomeIcons.solidUser,
+                        size: 56,
                         color: AppTheme.violeta,
                       ),
                     );
@@ -230,8 +231,8 @@ class _PerfilScreenState extends State<PerfilScreen>
                     colors: [AppTheme.rosa, AppTheme.naranja],
                   ),
                 ),
-                child: const Icon(
-                  Icons.edit_rounded,
+                child: const FaIcon(
+                  FontAwesomeIcons.solidPenToSquare,
                   color: Colors.white,
                   size: 18,
                 ),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme/app_theme.dart';
 
@@ -12,7 +12,7 @@ List<Map<String, dynamic>> productos = [
     'descripcion': 'Laptop de 15 pulgadas, 16 GB de RAM',
     'precio': 3500.00,
     'stock': 10,
-    'icono': Icons.laptop_mac_rounded,
+    'icono': FontAwesomeIcons.laptop,
     'color': AppTheme.violeta,
   },
   {
@@ -20,7 +20,7 @@ List<Map<String, dynamic>> productos = [
     'descripcion': 'Mouse inalambrico ergonomico',
     'precio': 50.00,
     'stock': 25,
-    'icono': Icons.mouse_rounded,
+    'icono': FontAwesomeIcons.computerMouse,
     'color': AppTheme.rosa,
   },
   {
@@ -28,7 +28,7 @@ List<Map<String, dynamic>> productos = [
     'descripcion': 'Teclado mecanico con luces RGB',
     'precio': 120.00,
     'stock': 15,
-    'icono': Icons.keyboard_rounded,
+    'icono': FontAwesomeIcons.solidKeyboard,
     'color': AppTheme.naranja,
   },
   {
@@ -36,7 +36,7 @@ List<Map<String, dynamic>> productos = [
     'descripcion': 'Monitor Full HD de 24 pulgadas',
     'precio': 800.00,
     'stock': 8,
-    'icono': Icons.desktop_windows_rounded,
+    'icono': FontAwesomeIcons.desktop,
     'color': AppTheme.turquesa,
   },
 ];

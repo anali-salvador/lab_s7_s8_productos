@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../data/productos.dart';
 import '../theme/app_theme.dart';
@@ -18,28 +19,28 @@ class _MenuScreenState extends State<MenuScreen> {
     {
       'titulo': 'Registrar Productos',
       'subtitulo': 'Agrega un producto nuevo',
-      'icono': Icons.add_box_rounded,
+      'icono': FontAwesomeIcons.solidSquarePlus,
       'colores': AppTheme.degradadoRosa,
       'ruta': '/registrar',
     },
     {
       'titulo': 'Listar Productos',
       'subtitulo': 'Busca y revisa tu inventario',
-      'icono': Icons.inventory_2_rounded,
+      'icono': FontAwesomeIcons.listUl,
       'colores': AppTheme.degradadoTurquesa,
       'ruta': '/listar',
     },
     {
       'titulo': 'Perfil',
       'subtitulo': 'Tus datos de usuario',
-      'icono': Icons.person_rounded,
+      'icono': FontAwesomeIcons.solidUser,
       'colores': AppTheme.degradadoNaranja,
       'ruta': '/perfil',
     },
     {
       'titulo': 'Logout',
       'subtitulo': 'Cerrar sesión',
-      'icono': Icons.logout_rounded,
+      'icono': FontAwesomeIcons.rightFromBracket,
       'colores': AppTheme.degradadoVioleta,
       'ruta': '/login',
     },
@@ -80,7 +81,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Row(
                       children: [
                         const CirculoDegradado(
-                          icono: Icons.storefront_rounded,
+                          icono: FontAwesomeIcons.store,
                           colores: AppTheme.degradadoAmarillo,
                           tamano: 60,
                         ),
@@ -121,9 +122,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       title: Text(opcion['titulo']),
                       subtitle: Text(opcion['subtitulo']),
                       // trailing = lo que va a la derecha (la flechita)
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 18,
+                      trailing: FaIcon(
+                        FontAwesomeIcons.chevronRight,
+                        size: 16,
                         color: (opcion['colores'] as List<Color>).first,
                       ),
                       onTap: () => _abrir(opcion['ruta']),

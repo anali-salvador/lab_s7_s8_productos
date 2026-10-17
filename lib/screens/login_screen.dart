@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme/app_theme.dart';
 import '../widgets/animated_gradient_background.dart';
@@ -55,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const CirculoDegradado(
-                            icono: Icons.shopping_bag_rounded,
+                            icono: FontAwesomeIcons.bagShopping,
                             colores: [AppTheme.violeta, AppTheme.rosa],
                             tamano: 96,
                           ),
@@ -82,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: const InputDecoration(
                               labelText: 'Email',
                               hintText: 'correo@ejemplo.com',
-                              prefixIcon: Icon(Icons.alternate_email_rounded),
+                              prefixIcon: FaIcon(FontAwesomeIcons.solidEnvelope, size: 18),
                             ),
                             validator: (valor) {
                               if (valor == null || valor.trim().isEmpty) {
@@ -102,14 +103,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             onFieldSubmitted: (_) => _iniciarSesion(),
                             decoration: InputDecoration(
                               labelText: 'Password',
-                              prefixIcon: const Icon(Icons.lock_rounded),
+                              prefixIcon: const FaIcon(FontAwesomeIcons.lock, size: 18),
                               // el ojito cambia entre mostrar y ocultar la clave
                               suffixIcon: IconButton(
                                 tooltip: _ocultarPass ? 'Mostrar' : 'Ocultar',
-                                icon: Icon(
+                                icon: FaIcon(
                                   _ocultarPass
-                                      ? Icons.visibility_rounded
-                                      : Icons.visibility_off_rounded,
+                                      ? FontAwesomeIcons.solidEye
+                                      : FontAwesomeIcons.solidEyeSlash,
+                                  size: 18,
                                 ),
                                 onPressed: () {
                                   setState(() => _ocultarPass = !_ocultarPass);
@@ -126,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 28),
                           GradientButton(
                             texto: 'LOGIN',
-                            icono: Icons.login_rounded,
+                            icono: FontAwesomeIcons.rightToBracket,
                             onPressed: _iniciarSesion,
                           ),
                           const SizedBox(height: 8),

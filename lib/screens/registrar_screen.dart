@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/services.dart';
 
 import '../data/productos.dart';
@@ -49,7 +50,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
       'descripcion': _descripcionCtrl.text.trim(),
       'precio': _leerPrecio(_precioCtrl.text)!,
       'stock': int.parse(_stockCtrl.text),
-      'icono': Icons.inventory_2_rounded,
+      'icono': FontAwesomeIcons.box,
       'color': color,
     });
 
@@ -57,7 +58,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check_circle_rounded, color: AppTheme.turquesa),
+            const FaIcon(FontAwesomeIcons.solidCircleCheck, size: 18, color: AppTheme.turquesa),
             const SizedBox(width: 12),
             Expanded(child: Text('"$nombre" se guardó correctamente')),
           ],
@@ -95,7 +96,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
                           textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
                             labelText: 'Nombre',
-                            prefixIcon: Icon(Icons.label_rounded),
+                            prefixIcon: FaIcon(FontAwesomeIcons.tag, size: 18),
                           ),
                           validator: (v) => (v == null || v.trim().isEmpty)
                               ? 'Escribe el nombre del producto'
@@ -108,7 +109,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
                           maxLines: 3,
                           decoration: const InputDecoration(
                             labelText: 'Descripción',
-                            prefixIcon: Icon(Icons.notes_rounded),
+                            prefixIcon: FaIcon(FontAwesomeIcons.alignLeft, size: 18),
                           ),
                           validator: (v) => (v == null || v.trim().isEmpty)
                               ? 'Escribe una descripción'
@@ -128,7 +129,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
                           decoration: const InputDecoration(
                             labelText: 'Precio',
                             prefixText: 'S/ ',
-                            prefixIcon: Icon(Icons.payments_rounded),
+                            prefixIcon: FaIcon(FontAwesomeIcons.moneyBillWave, size: 18),
                           ),
                           validator: (v) {
                             if (v == null || v.trim().isEmpty) {
@@ -152,7 +153,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
                           onFieldSubmitted: (_) => _guardar(),
                           decoration: const InputDecoration(
                             labelText: 'Stock',
-                            prefixIcon: Icon(Icons.inventory_rounded),
+                            prefixIcon: FaIcon(FontAwesomeIcons.boxesStacked, size: 18),
                           ),
                           validator: (v) {
                             if (v == null || v.isEmpty) {
@@ -167,7 +168,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
                         const SizedBox(height: 26),
                         GradientButton(
                           texto: 'GUARDAR',
-                          icono: Icons.save_rounded,
+                          icono: FontAwesomeIcons.solidFloppyDisk,
                           onPressed: _guardar,
                         ),
                       ],
@@ -214,7 +215,7 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const CirculoDegradado(
-                icono: Icons.photo_camera_rounded,
+                icono: FontAwesomeIcons.solidCamera,
                 colores: [AppTheme.naranja, AppTheme.rosa],
                 tamano: 60,
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../data/productos.dart';
 import '../theme/app_theme.dart';
@@ -60,7 +61,7 @@ class _ListarScreenState extends State<ListarScreen> {
               tooltip: 'Agregar producto',
               onPressed: _irARegistrar,
               icon: const CirculoDegradado(
-                icono: Icons.add_rounded,
+                icono: FontAwesomeIcons.plus,
                 colores: AppTheme.degradadoRosa,
                 tamano: 38,
               ),
@@ -81,12 +82,12 @@ class _ListarScreenState extends State<ListarScreen> {
                     onChanged: (valor) => setState(() => _busqueda = valor),
                     decoration: InputDecoration(
                       hintText: 'Buscar producto...',
-                      prefixIcon: const Icon(Icons.search_rounded),
+                      prefixIcon: const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 18),
                       suffixIcon: _busqueda.isEmpty
                           ? null
                           : IconButton(
                               tooltip: 'Limpiar',
-                              icon: const Icon(Icons.close_rounded),
+                              icon: const FaIcon(FontAwesomeIcons.xmark, size: 18),
                               onPressed: () {
                                 _buscarCtrl.clear();
                                 setState(() => _busqueda = '');
@@ -157,7 +158,7 @@ class _ListarScreenState extends State<ListarScreen> {
         // menu de 3 puntos con la opcion Eliminar
         trailing: PopupMenuButton<String>(
           tooltip: 'Opciones',
-          icon: const Icon(Icons.more_vert_rounded),
+          icon: const FaIcon(FontAwesomeIcons.ellipsisVertical, size: 18),
           onSelected: (opcion) {
             if (opcion == 'eliminar') _eliminar(producto);
           },
@@ -166,7 +167,7 @@ class _ListarScreenState extends State<ListarScreen> {
               value: 'eliminar',
               child: Row(
                 children: [
-                  Icon(Icons.delete_rounded, color: AppTheme.rojoError),
+                  FaIcon(FontAwesomeIcons.solidTrashCan, size: 18, color: AppTheme.rojoError),
                   SizedBox(width: 10),
                   Text('Eliminar'),
                 ],
@@ -186,7 +187,7 @@ class _ListarScreenState extends State<ListarScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CirculoDegradado(
-              icono: Icons.search_off_rounded,
+              icono: FontAwesomeIcons.solidFaceFrown,
               colores: AppTheme.degradadoNaranja,
               tamano: 72,
             ),

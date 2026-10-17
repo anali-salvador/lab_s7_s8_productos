@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme/app_theme.dart';
 
@@ -7,7 +8,7 @@ import '../theme/app_theme.dart';
 class GradientButton extends StatefulWidget {
   final String texto;
   final VoidCallback onPressed;
-  final IconData? icono; // el icono es opcional
+  final FaIconData? icono; // el icono es opcional
 
   const GradientButton({
     super.key,
@@ -89,7 +90,7 @@ class _GradientButtonState extends State<GradientButton>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (widget.icono != null) ...[
-                    Icon(widget.icono, color: Colors.white),
+                    FaIcon(widget.icono, color: Colors.white, size: 18),
                     const SizedBox(width: 10),
                   ],
                   Flexible(

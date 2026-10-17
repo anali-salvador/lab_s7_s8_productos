@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // En este archivo esta TODO el tema de la app.
@@ -197,6 +198,12 @@ class AppTheme {
 
       progressIndicatorTheme: const ProgressIndicatorThemeData(color: rosa),
 
+      // flecha de "atras" del AppBar con icono de Font Awesome
+      actionIconTheme: ActionIconThemeData(
+        backButtonIconBuilder: (context) =>
+            const FaIcon(FontAwesomeIcons.arrowLeft, size: 20),
+      ),
+
       // Transicion suave entre pantallas (igual en todas las plataformas)
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
@@ -215,7 +222,7 @@ class AppTheme {
 // Circulo con degradado y un icono blanco adentro.
 // Lo uso en el logo, en el menu, en los productos, etc.
 class CirculoDegradado extends StatelessWidget {
-  final IconData icono;
+  final FaIconData icono;
   final List<Color> colores;
   final double tamano;
 
@@ -246,7 +253,9 @@ class CirculoDegradado extends StatelessWidget {
           ),
         ],
       ),
-      child: Icon(icono, color: Colors.white, size: tamano * 0.5),
+      child: Center(
+        child: FaIcon(icono, color: Colors.white, size: tamano * 0.42),
+      ),
     );
   }
 }

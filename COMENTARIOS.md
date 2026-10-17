@@ -195,3 +195,68 @@ if (mounted) setState(() {});
 ```
 
 Espero a que vuelva de registrar y recién actualizo la lista. El `mounted` revisa que la pantalla todavía exista antes de llamar a `setState`, porque si no puede salir un error.
+
+---
+
+## 14. Marco de celular y el builder de MaterialApp
+
+**Archivos:** `lib/main.dart` y `lib/widgets/marco_celular.dart`
+
+```dart
+builder: (context, child) => MarcoCelular(child: child!),
+...
+// celular real: la app ocupa toda la pantalla normal
+if (media.size.width < 600) return child;
+```
+
+El `builder` de MaterialApp envuelve a todas las pantallas, así que ahí puse el marco una sola vez. Si la pantalla mide menos de 600 de ancho no pongo el marco. Adentro uso un `MediaQuery` con 390 x 844 para que la app crea que está en un celular.
+
+---
+
+## 15. image_picker para elegir una foto de la galería
+
+**Archivo:** `lib/screens/registrar_screen.dart`
+
+```dart
+final XFile? archivo = await ImagePicker().pickImage(
+  source: ImageSource.gallery,
+  maxWidth: 600, // la achico para que no pese tanto
+  imageQuality: 85,
+);
+if (archivo == null) return; // cerro la galeria sin elegir
+```
+
+Abre la galería y espera a que elija una foto. Si cierra sin elegir, devuelve null. Después leo la foto con `readAsBytes()` y la muestro con `Image.memory`, porque `File` no funciona en el navegador.
+
+---
+
+## 16. Animación de entrada de las cards
+
+**Archivo:** `lib/widgets/entrada_animada.dart`
+
+```dart
+return Opacity(
+  opacity: valor,
+  child: Transform.translate(
+    offset: Offset(0, 28 * (1 - valor)),
+    child: child,
+  ),
+```
+
+Con `TweenAnimationBuilder` el valor va de 0 a 1 una sola vez cuando aparece la card. Con ese valor la card se va haciendo visible (fade) y sube un poquito. El índice hace que cada card entre un poco después que la anterior.
+
+---
+
+## 17. font_awesome_flutter y el widget IconoCampo
+
+**Archivo:** `lib/theme/app_theme.dart`
+
+```dart
+return SizedBox(
+  width: 48,
+  height: 48,
+  child: Center(child: FaIcon(icono, size: 18)),
+);
+```
+
+`font_awesome_flutter` trae los íconos de Font Awesome y se usan con `FaIcon` en vez de `Icon`. En los campos de texto los íconos salían corridos hacia una esquina, entonces hice `IconoCampo`, que los mete en una caja de 48 x 48 y los centra.

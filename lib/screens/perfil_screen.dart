@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme/app_theme.dart';
 import '../widgets/animated_gradient_background.dart';
+import '../widgets/entrada_animada.dart';
 import '../widgets/gradient_button.dart';
 
 class PerfilScreen extends StatefulWidget {
@@ -55,10 +56,30 @@ class _PerfilScreenState extends State<PerfilScreen>
 
     // filas de la card de datos: icono, color, etiqueta y valor
     final datos = [
-      {'icono': FontAwesomeIcons.solidUser, 'color': AppTheme.violeta, 'label': 'Nombre', 'valor': _usuario['nombre']},
-      {'icono': FontAwesomeIcons.solidEnvelope, 'color': AppTheme.rosa, 'label': 'Email', 'valor': _usuario['email']},
-      {'icono': FontAwesomeIcons.phone, 'color': AppTheme.turquesa, 'label': 'Teléfono', 'valor': _usuario['telefono']},
-      {'icono': FontAwesomeIcons.shieldHalved, 'color': AppTheme.naranja, 'label': 'Rol', 'valor': _usuario['rol']},
+      {
+        'icono': FontAwesomeIcons.solidUser,
+        'color': AppTheme.violeta,
+        'label': 'Nombre',
+        'valor': _usuario['nombre'],
+      },
+      {
+        'icono': FontAwesomeIcons.solidEnvelope,
+        'color': AppTheme.rosa,
+        'label': 'Email',
+        'valor': _usuario['email'],
+      },
+      {
+        'icono': FontAwesomeIcons.phone,
+        'color': AppTheme.turquesa,
+        'label': 'Teléfono',
+        'valor': _usuario['telefono'],
+      },
+      {
+        'icono': FontAwesomeIcons.shieldHalved,
+        'color': AppTheme.naranja,
+        'label': 'Rol',
+        'valor': _usuario['rol'],
+      },
     ];
 
     return AnimatedGradientBackground(
@@ -66,14 +87,15 @@ class _PerfilScreenState extends State<PerfilScreen>
         appBar: AppBar(title: const Text('Mi Perfil')),
         body: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
               child: Column(
                 children: [
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+                  // el borde arcoiris sigue girando con el controller
                   _foto(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 18),
                   Text(
                     _usuario['nombre']!,
                     textAlign: TextAlign.center,
@@ -81,6 +103,7 @@ class _PerfilScreenState extends State<PerfilScreen>
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                  const SizedBox(height: 2),
                   Text(
                     _usuario['email']!,
                     textAlign: TextAlign.center,
@@ -88,26 +111,84 @@ class _PerfilScreenState extends State<PerfilScreen>
                       color: AppTheme.textoOscuro.withValues(alpha: 0.7),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Card(
+                  const SizedBox(height: 12),
+                  // chip con el rol
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: AppTheme.degradadoNaranja,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.naranja.withValues(alpha: 0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const FaIcon(
+                          FontAwesomeIcons.crown,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          _usuario['rol']!,
+                          style: textos.labelMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        children: [
-                          for (int i = 0; i < datos.length; i++) ...[
-                            if (i > 0)
-                              const Divider(indent: 76, endIndent: 20),
-                            _filaDato(datos[i]),
-                          ],
-                        ],
+                      padding: const EdgeInsets.only(left: 6, bottom: 6),
+                      child: Text(
+                        'Información personal',
+                        style: textos.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  GradientButton(
-                    texto: 'EDITAR PERFIL',
-                    icono: FontAwesomeIcons.solidPenToSquare,
-                    onPressed: () => _mensaje('Pronto podrás editar tu perfil'),
+                  EntradaAnimada(
+                    indice: 1,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < datos.length; i++) ...[
+                              if (i > 0)
+                                const Divider(indent: 76, endIndent: 20),
+                              _filaDato(datos[i]),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 26),
+                  EntradaAnimada(
+                    indice: 2,
+                    child: GradientButton(
+                      texto: 'EDITAR PERFIL',
+                      icono: FontAwesomeIcons.solidPenToSquare,
+                      onPressed: () =>
+                          _mensaje('Pronto podrás editar tu perfil'),
+                    ),
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -129,7 +210,9 @@ class _PerfilScreenState extends State<PerfilScreen>
           color: color.withValues(alpha: 0.15),
           shape: BoxShape.circle,
         ),
-        child: FaIcon(dato['icono'] as FaIconData, size: 18, color: color),
+        child: Center(
+          child: FaIcon(dato['icono'] as FaIconData, size: 18, color: color),
+        ),
       ),
       title: Text(
         dato['label'] as String,
@@ -200,10 +283,12 @@ class _PerfilScreenState extends State<PerfilScreen>
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       color: AppTheme.violeta.withValues(alpha: 0.12),
-                      child: const FaIcon(
-                        FontAwesomeIcons.solidUser,
-                        size: 56,
-                        color: AppTheme.violeta,
+                      child: const Center(
+                        child: FaIcon(
+                          FontAwesomeIcons.solidUser,
+                          size: 56,
+                          color: AppTheme.violeta,
+                        ),
                       ),
                     );
                   },
@@ -231,10 +316,12 @@ class _PerfilScreenState extends State<PerfilScreen>
                     colors: [AppTheme.rosa, AppTheme.naranja],
                   ),
                 ),
-                child: const FaIcon(
-                  FontAwesomeIcons.solidPenToSquare,
-                  color: Colors.white,
-                  size: 18,
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.pen,
+                    color: Colors.white,
+                    size: 15,
+                  ),
                 ),
               ),
             ),

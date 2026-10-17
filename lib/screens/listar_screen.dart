@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../data/productos.dart';
 import '../theme/app_theme.dart';
 import '../widgets/animated_gradient_background.dart';
+import '../widgets/entrada_animada.dart';
 import '../widgets/imagen_producto.dart';
 
 class ListarScreen extends StatefulWidget {
@@ -83,12 +84,17 @@ class _ListarScreenState extends State<ListarScreen> {
                     onChanged: (valor) => setState(() => _busqueda = valor),
                     decoration: InputDecoration(
                       hintText: 'Buscar producto...',
-                      prefixIcon: const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 18),
+                      prefixIcon: const IconoCampo(
+                        FontAwesomeIcons.magnifyingGlass,
+                      ),
                       suffixIcon: _busqueda.isEmpty
                           ? null
                           : IconButton(
                               tooltip: 'Limpiar',
-                              icon: const FaIcon(FontAwesomeIcons.xmark, size: 18),
+                              icon: const FaIcon(
+                                FontAwesomeIcons.xmark,
+                                size: 18,
+                              ),
                               onPressed: () {
                                 _buscarCtrl.clear();
                                 setState(() => _busqueda = '');
@@ -97,16 +103,37 @@ class _ListarScreenState extends State<ListarScreen> {
                     ),
                   ),
                 ),
+                // titulo de la seccion con un chip que dice cuantos hay
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '${lista.length} producto(s)',
-                      style: textos.labelLarge?.copyWith(
-                        color: AppTheme.textoOscuro.withValues(alpha: 0.7),
+                  padding: const EdgeInsets.fromLTRB(22, 10, 22, 6),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _busqueda.isEmpty ? 'Mis productos' : 'Resultados',
+                          style: textos.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.violeta.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '${lista.length} producto(s)',
+                          style: textos.labelMedium?.copyWith(
+                            color: AppTheme.violeta,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -115,11 +142,16 @@ class _ListarScreenState extends State<ListarScreen> {
                       // ListView.builder crea los items solo cuando se van a ver,
                       // por eso es mejor para listas que pueden crecer
                       : ListView.builder(
-                          padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                          padding: const EdgeInsets.fromLTRB(16, 6, 16, 28),
                           itemCount: lista.length,
                           itemBuilder: (context, index) {
                             final producto = lista[index];
-                            return _tarjetaProducto(producto);
+                            // ObjectKey para que al borrar uno no se confundan las cards
+                            return EntradaAnimada(
+                              key: ObjectKey(producto),
+                              indice: index,
+                              child: _tarjetaProducto(producto),
+                            );
                           },
                         ),
                 ),
@@ -136,7 +168,9 @@ class _ListarScreenState extends State<ListarScreen> {
     final Color color = producto['color'];
 
     return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
+        contentPadding: const EdgeInsets.fromLTRB(14, 10, 6, 10),
         // foto del producto (o una cajita si no tiene)
         leading: ImagenProducto(producto: producto, tamano: 58),
         title: Text(
@@ -147,6 +181,7 @@ class _ListarScreenState extends State<ListarScreen> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 2),
             Text(
               'Precio: ${formatearPrecio(producto['precio'])}',
               style: TextStyle(color: color, fontWeight: FontWeight.w600),
@@ -166,7 +201,11 @@ class _ListarScreenState extends State<ListarScreen> {
               value: 'eliminar',
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.solidTrashCan, size: 18, color: AppTheme.rojoError),
+                  FaIcon(
+                    FontAwesomeIcons.solidTrashCan,
+                    size: 18,
+                    color: AppTheme.rojoError,
+                  ),
                   SizedBox(width: 10),
                   Text('Eliminar'),
                 ],

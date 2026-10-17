@@ -18,7 +18,13 @@ class AppTheme {
   static const Color rojoError = Color(0xFFE5395B);
 
   // Los colores del arcoiris en orden, los uso en el fondo y en los botones
-  static const List<Color> arcoiris = [violeta, rosa, naranja, amarillo, turquesa];
+  static const List<Color> arcoiris = [
+    violeta,
+    rosa,
+    naranja,
+    amarillo,
+    turquesa,
+  ];
 
   // Degradados de 2 colores para los iconos de cada seccion
   static const List<Color> degradadoVioleta = [violeta, Color(0xFFB57BFF)];
@@ -64,10 +70,8 @@ class AppTheme {
     final base = ThemeData(useMaterial3: true, colorScheme: colorScheme);
 
     // Tipografia Poppins de google_fonts para todos los textos
-    final textos = GoogleFonts.poppinsTextTheme(base.textTheme).apply(
-      bodyColor: textoOscuro,
-      displayColor: textoOscuro,
-    );
+    final textos = GoogleFonts.poppinsTextTheme(base.textTheme)
+        .apply(bodyColor: textoOscuro, displayColor: textoOscuro);
 
     // bordes redondeados de los inputs (los reutilizo abajo)
     OutlineInputBorder borde(Color color, double ancho) {
@@ -119,7 +123,10 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white.withValues(alpha: 0.92),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
         prefixIconColor: WidgetStateColor.resolveWith((states) {
           if (states.contains(WidgetState.error)) return rojoError;
           if (states.contains(WidgetState.focused)) return rosa;
@@ -127,7 +134,9 @@ class AppTheme {
         }),
         suffixIconColor: violeta,
         labelStyle: GoogleFonts.poppins(color: textoSuave),
-        hintStyle: GoogleFonts.poppins(color: textoSuave.withValues(alpha: 0.7)),
+        hintStyle: GoogleFonts.poppins(
+          color: textoSuave.withValues(alpha: 0.7),
+        ),
         floatingLabelStyle: GoogleFonts.poppins(
           color: rosa,
           fontWeight: FontWeight.w600,
@@ -166,10 +175,7 @@ class AppTheme {
           fontWeight: FontWeight.w600,
           color: textoOscuro,
         ),
-        subtitleTextStyle: GoogleFonts.poppins(
-          fontSize: 13,
-          color: textoSuave,
-        ),
+        subtitleTextStyle: GoogleFonts.poppins(fontSize: 13, color: textoSuave),
       ),
 
       popupMenuTheme: PopupMenuThemeData(
@@ -256,6 +262,24 @@ class CirculoDegradado extends StatelessWidget {
       child: Center(
         child: FaIcon(icono, color: Colors.white, size: tamano * 0.42),
       ),
+    );
+  }
+}
+
+// Icono para los campos de texto (prefixIcon).
+// FaIcon solo no se centraba bien en el input, por eso lo meto en un
+// SizedBox de 48 x 48 con Center.
+class IconoCampo extends StatelessWidget {
+  final FaIconData icono;
+
+  const IconoCampo(this.icono, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 48,
+      height: 48,
+      child: Center(child: FaIcon(icono, size: 18)),
     );
   }
 }

@@ -11,6 +11,9 @@ Aplicación en Flutter para el curso de Aplicaciones Multiplataforma.
 - **Perfil** del usuario con foto y sus datos.
 
 Todas las pantallas tienen un fondo arcoíris animado y botones con degradado.
+En el navegador la app se muestra dentro de un marco de celular. Usa íconos de
+Font Awesome, fotos reales de los productos (créditos en `assets/CREDITOS.md`)
+y permite elegir una foto de la galería al registrar un producto.
 
 ## Cómo ejecutarla
 

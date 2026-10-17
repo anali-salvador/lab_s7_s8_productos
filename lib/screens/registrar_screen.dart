@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../data/productos.dart';
 import '../theme/app_theme.dart';
 import '../widgets/animated_gradient_background.dart';
+import '../widgets/entrada_animada.dart';
 import '../widgets/gradient_button.dart';
 
 class RegistrarScreen extends StatefulWidget {
@@ -112,97 +113,122 @@ class _RegistrarScreenState extends State<RegistrarScreen> {
             padding: const EdgeInsets.all(16),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _zonaImagen(textos),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                          controller: _nombreCtrl,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            labelText: 'Nombre',
-                            prefixIcon: FaIcon(FontAwesomeIcons.tag, size: 18),
+              child: EntradaAnimada(
+                indice: 0,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Nuevo producto',
+                            style: textos.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          validator: (v) => (v == null || v.trim().isEmpty)
-                              ? 'Escribe el nombre del producto'
-                              : null,
-                        ),
-                        const SizedBox(height: 14),
-                        TextFormField(
-                          controller: _descripcionCtrl,
-                          minLines: 1,
-                          maxLines: 3,
-                          decoration: const InputDecoration(
-                            labelText: 'Descripción',
-                            prefixIcon: FaIcon(FontAwesomeIcons.alignLeft, size: 18),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Completa los datos para agregarlo a tu lista',
+                            style: textos.bodySmall?.copyWith(
+                              color: AppTheme.textoSuave,
+                            ),
                           ),
-                          validator: (v) => (v == null || v.trim().isEmpty)
-                              ? 'Escribe una descripción'
-                              : null,
-                        ),
-                        const SizedBox(height: 14),
-                        TextFormField(
-                          controller: _precioCtrl,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
+                          const SizedBox(height: 18),
+                          _zonaImagen(textos),
+                          const SizedBox(height: 22),
+                          TextFormField(
+                            controller: _nombreCtrl,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                              labelText: 'Nombre',
+                              prefixIcon: IconoCampo(FontAwesomeIcons.tag),
+                            ),
+                            validator: (v) => (v == null || v.trim().isEmpty)
+                                ? 'Escribe el nombre del producto'
+                                : null,
                           ),
-                          // solo deja escribir numeros, punto o coma
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
-                          ],
-                          decoration: const InputDecoration(
-                            labelText: 'Precio',
-                            prefixText: 'S/ ',
-                            prefixIcon: FaIcon(FontAwesomeIcons.moneyBillWave, size: 18),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _descripcionCtrl,
+                            minLines: 1,
+                            maxLines: 3,
+                            decoration: const InputDecoration(
+                              labelText: 'Descripción',
+                              prefixIcon: IconoCampo(
+                                FontAwesomeIcons.alignLeft,
+                              ),
+                            ),
+                            validator: (v) => (v == null || v.trim().isEmpty)
+                                ? 'Escribe una descripción'
+                                : null,
                           ),
-                          validator: (v) {
-                            if (v == null || v.trim().isEmpty) {
-                              return 'Escribe el precio';
-                            }
-                            final precio = _leerPrecio(v);
-                            if (precio == null || precio <= 0) {
-                              return 'El precio debe ser mayor a 0';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 14),
-                        TextFormField(
-                          controller: _stockCtrl,
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          onFieldSubmitted: (_) => _guardar(),
-                          decoration: const InputDecoration(
-                            labelText: 'Stock',
-                            prefixIcon: FaIcon(FontAwesomeIcons.boxesStacked, size: 18),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _precioCtrl,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            // solo deja escribir numeros, punto o coma
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.,]'),
+                              ),
+                            ],
+                            decoration: const InputDecoration(
+                              labelText: 'Precio',
+                              prefixText: 'S/ ',
+                              prefixIcon: IconoCampo(
+                                FontAwesomeIcons.moneyBillWave,
+                              ),
+                            ),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) {
+                                return 'Escribe el precio';
+                              }
+                              final precio = _leerPrecio(v);
+                              if (precio == null || precio <= 0) {
+                                return 'El precio debe ser mayor a 0';
+                              }
+                              return null;
+                            },
                           ),
-                          validator: (v) {
-                            if (v == null || v.isEmpty) {
-                              return 'Escribe el stock';
-                            }
-                            if (int.tryParse(v) == null) {
-                              return 'El stock debe ser un número entero';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 26),
-                        GradientButton(
-                          texto: 'GUARDAR',
-                          icono: FontAwesomeIcons.solidFloppyDisk,
-                          onPressed: _guardar,
-                        ),
-                      ],
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _stockCtrl,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            onFieldSubmitted: (_) => _guardar(),
+                            decoration: const InputDecoration(
+                              labelText: 'Stock',
+                              prefixIcon: IconoCampo(
+                                FontAwesomeIcons.boxesStacked,
+                              ),
+                            ),
+                            validator: (v) {
+                              if (v == null || v.isEmpty) {
+                                return 'Escribe el stock';
+                              }
+                              if (int.tryParse(v) == null) {
+                                return 'El stock debe ser un número entero';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 28),
+                          GradientButton(
+                            texto: 'GUARDAR',
+                            icono: FontAwesomeIcons.solidFloppyDisk,
+                            onPressed: _guardar,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

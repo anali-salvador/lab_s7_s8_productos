@@ -113,7 +113,9 @@ class MarcoCelular extends StatelessWidget {
                               width: 130,
                               height: 5,
                               decoration: BoxDecoration(
-                                color: AppTheme.textoOscuro.withValues(alpha: 0.55),
+                                color: AppTheme.textoOscuro.withValues(
+                                  alpha: 0.55,
+                                ),
                                 borderRadius: BorderRadius.circular(3),
                               ),
                             ),

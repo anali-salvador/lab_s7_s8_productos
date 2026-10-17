@@ -66,7 +66,9 @@ class _GradientButtonState extends State<GradientButton>
               // sombra del mismo color que el degradado
               boxShadow: [
                 BoxShadow(
-                  color: colores.first.withValues(alpha: _presionado ? 0.25 : 0.45),
+                  color: colores.first.withValues(
+                    alpha: _presionado ? 0.25 : 0.45,
+                  ),
                   blurRadius: _presionado ? 6 : 16,
                   offset: Offset(0, _presionado ? 2 : 7),
                 ),
@@ -98,10 +100,10 @@ class _GradientButtonState extends State<GradientButton>
                       widget.texto,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.5,
-                          ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.5,
+                      ),
                     ),
                   ),
                 ],
